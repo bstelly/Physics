@@ -286,13 +286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ece500bd18fa654da625fd995f5a922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 11400000, guid: 204092dd9fe64e344871f5a44fadd2ca, type: 2}
   particle:
-    Position: {x: 0, y: 0, z: 0}
-    Velocity: {x: 1, y: 0, z: 0}
-    Acceleration: {x: 2, y: 0, z: 0}
-    Force: {x: 3, y: 0, z: 0}
-    Mass: 10
+    Force: {x: 1, y: 0, z: 0}
+    Mass: 0
+    movementType: 0
 --- !u!135 &2114815712
 SphereCollider:
   m_ObjectHideFlags: 0

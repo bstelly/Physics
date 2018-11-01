@@ -8,23 +8,22 @@ namespace Assets.Scripts.Physics
     public class ParticleBehaviour : MonoBehaviour
     {
 
-        [SerializeField] public MovementScriptable movement;
+        //[SerializeField] public MovementScriptable movement;
         [SerializeField] Particle particle;
 
         void Start()
         {
-            transform.position = particle.Position;
+            particle.Position = transform.position;
 
-            if (movement.movementType == MovementScriptable.MovementTypes.Linear)
+            switch (particle.movementType)
             {
-                particle.Moveable = new LinearMove();
+                case Particle.MovementTypes.Linear:
+                    particle.Moveable = new LinearMove();
+                    break;
+                case Particle.MovementTypes.Input:
+                    particle.Moveable = new InputMove();
+                    break;
             }
-            //switch (movement.movementType)
-            //{
-            //    case MovementScriptable.MovementTypes.Linear:
-            //        particle.Moveable = new LinearMove();
-            //        break;
-            //}
 
         }
 
