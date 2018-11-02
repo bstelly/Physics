@@ -4,24 +4,53 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEditor;
 using UnityEngine;
 
+
 namespace Assets.Scripts.Physics
 {
+    
+
     [CreateAssetMenu]
     public class ProjectileMovement : ScriptableObject
     {
+        public Vector2 InitialPosition;
+        public Vector2 FinalPosition;
+        public Vector2 InitialVelocity;
+        public Vector2 FinalVelocity;
+        private float gravity;           //g
+        public float time;              //t
 
-        public float x;     //final position
-        public float Xo;    //Initial x position
-        public float y;     //Final y position
-        public float Yo;    //Initial y position
-        public float VOx;   //Initial x velocity
-        public float VOy;   //Initial y velocity
-        public float g;     //gravity
-        public float t;     //time
-        [HideInInspector]
-        public float result;
+        public void CalcAngleOfLaunch()
+        {
+            //horizontal velocity
+            float theta = Mathf.Atan(InitialVelocity.y / InitialVelocity.x);
+        }
 
+        public void CalcTimeOfFlight()
+        {
+            time = 2 * (InitialVelocity.y / gravity);
+        }
 
+        public void CalcDistance()
+        {
+
+        }
+
+        public float CalcMaximumHeight()
+        {
+            //if (FinalVelocity.x != 0)
+            //{
+            //    var numerator = ((FinalVelocity * FinalVelocity) - (InitialVelocity * InitialVelocity));
+            //    var denominator = 2 * -9.81f;
+            //    var result = new Vector2(numerator.x / denominator, numerator.y / denominator);
+            //    return result;
+            //}
+            //else
+            //{
+                var result = (InitialVelocity.y * InitialVelocity.y) / (2 * 9.81f);
+                return result;
+            //}
+
+        }
     }
 
     [CustomEditor(typeof(ProjectileMovement))]
@@ -31,24 +60,26 @@ namespace Assets.Scripts.Physics
         {
             DrawDefaultInspector();
 
-            ProjectileMovement projectile = CreateInstance<ProjectileMovement>();
-
             ProjectileMovement myProjectileMovement = (ProjectileMovement) target;
-            if (GUILayout.Button("Calculate"))
-            {
-                projectile.x = projectile.Xo + projectile.VOx * projectile.t;
-                projectile.y = projectile.Yo + (projectile.VOy * projectile.t) +
-                               ((1 / 2) * projectile.g * projectile.t * projectile.t);
-            }
+
+            float maxHeight = 0;
+
 
             GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
             boxStyle.normal.textColor = Color.white;
 
-            GUILayout.Box("Result = " + projectile.result.ToString(), boxStyle);
+            if(GUILayout.Button("find angle"))
+            {
+                myProjectileMovement.CalcAngleOfLaunch();
+            }
+
+            GUILayout.Box("Maximum Height = " + myProjectileMovement.CalcMaximumHeight() + " meters" + "\n", boxStyle);
 
         }
     }
 }
+
+
 
 // Vx = Vo cos(theta) 19.82
 // Vy = Vo sin(theta) - g * t 

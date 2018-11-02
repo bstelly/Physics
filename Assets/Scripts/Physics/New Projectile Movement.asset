@@ -11,12 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd695fd36368f7849ab6e2802a50199c, type: 3}
   m_Name: New Projectile Movement
   m_EditorClassIdentifier: 
-  x: 0
-  Xo: 0
-  y: 0
-  Yo: 0
-  VOx: 19.82
-  VOy: 20
-  g: 0
-  t: 0
-  result: 0
+  InitialPosition: {x: 0, y: 0}
+  FinalPosition: {x: 0, y: 0}
+  InitialVelocity: {x: 5, y: 10}
+  FinalVelocity: {x: 0, y: 0}
+  time: 0
