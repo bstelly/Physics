@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialPosition: {x: 0, y: 0}
   FinalPosition: {x: 0, y: 0}
-  InitialVelocity: {x: 5, y: 10}
+  InitialVelocity: {x: 10, y: 12}
   FinalVelocity: {x: 0, y: 0}
-  time: 0
+  time: 2.4464831
