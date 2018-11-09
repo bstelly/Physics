@@ -8,7 +8,7 @@ public class BoidParticle
 {
     public Vector3 Position;
     public Vector3 Velocity;
-    //public bool isPerching;
-    //public float perchTimer = 100;
+    public bool isPerching;
+    public float perchTimer;
 
 }

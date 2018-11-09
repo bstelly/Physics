@@ -106,26 +106,26 @@ namespace Assets.Scripts.Physics
         }
     }
 
-    [CustomEditor(typeof(ProjectileMovement))]
-    public class ProjectileMovementEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
+    //[CustomEditor(typeof(ProjectileMovement))]
+    //public class ProjectileMovementEditor : Editor
+    //{
+    //    public override void OnInspectorGUI()
+    //    {
+    //        DrawDefaultInspector();
 
-            ProjectileMovement myProjectileMovement = (ProjectileMovement) target;
+    //        ProjectileMovement myProjectileMovement = (ProjectileMovement) target;
 
-            GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
-            boxStyle.normal.textColor = Color.white;
+    //        GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
+    //        boxStyle.normal.textColor = Color.white;
 
-            GUILayout.Box("Final Position = " + myProjectileMovement.CalcFinalPosition(), boxStyle);
-            GUILayout.Box("Angle of Launch = " + myProjectileMovement.CalcAngleOfLaunch() + " rad" + " / " + 
-                ((myProjectileMovement.CalcAngleOfLaunch() * 180) / Mathf.PI) + " deg", boxStyle);
-            GUILayout.Box("Time of Flight = " + myProjectileMovement.CalcTimeOfFlight() + " seconds", boxStyle);
-            GUILayout.Box("Distance = " + myProjectileMovement.CalcDistance() + " meters", boxStyle);
-            GUILayout.Box("Maximum Height = " + myProjectileMovement.CalcMaximumHeight() + " meters", boxStyle);
+    //        GUILayout.Box("Final Position = " + myProjectileMovement.CalcFinalPosition(), boxStyle);
+    //        GUILayout.Box("Angle of Launch = " + myProjectileMovement.CalcAngleOfLaunch() + " rad" + " / " + 
+    //            ((myProjectileMovement.CalcAngleOfLaunch() * 180) / Mathf.PI) + " deg", boxStyle);
+    //        GUILayout.Box("Time of Flight = " + myProjectileMovement.CalcTimeOfFlight() + " seconds", boxStyle);
+    //        GUILayout.Box("Distance = " + myProjectileMovement.CalcDistance() + " meters", boxStyle);
+    //        GUILayout.Box("Maximum Height = " + myProjectileMovement.CalcMaximumHeight() + " meters", boxStyle);
 
 
-        }
-    }
+    //    }
+    //}
 }

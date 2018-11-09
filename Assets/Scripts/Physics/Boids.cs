@@ -8,13 +8,20 @@ namespace Assets.Scripts.Physics
     {
         public List<BoidParticle> boids = new List<BoidParticle>();
         public List<GameObject> gameObjects;
-
+        public GameObject prefab;
 
         void Start()
         {
-            for (int i = 0; i < 400; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                gameObjects.Add(GameObject.CreatePrimitive(PrimitiveType.Sphere));
+                //var temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                var tempPos = new Vector3();
+                tempPos.x = Random.Range(-500, 500);
+                tempPos.y = Random.Range(1, 500);
+                tempPos.z = Random.Range(-500, 500);
+                var temp = Instantiate(prefab, tempPos, Quaternion.identity);
+
+                gameObjects.Add(temp);
                 boids.Add(new BoidParticle());
             }
 
@@ -24,6 +31,9 @@ namespace Assets.Scripts.Physics
                 boids[iter].Position = OBJECT.transform.position;
                 iter += 1;
             }
+
+
+            Initialize();
         }
 
         void Update()
@@ -31,9 +41,13 @@ namespace Assets.Scripts.Physics
             MoveAllBoidsToNewPositions();
         }
 
-        public void InitializePositions()
+        public void Initialize()
         {
-            
+            foreach (var boid in boids)
+            {
+                boid.isPerching = false;
+                boid.perchTimer = 100;
+            }
         }
 
         public void MoveAllBoidsToNewPositions()
@@ -43,29 +57,34 @@ namespace Assets.Scripts.Physics
             int iter = 0;
             foreach (var boid in boids)
             {
-                //if (boid.isPerching)
-                //{
-                //    if (boid.perchTimer > 0)
-                //    {
-                //        boid.perchTimer = boid.perchTimer - 1;
-                //    }
-                //    else
-                //    {
-                //        boid.isPerching = false;
-                //    }
-                //}
+                if (boid.isPerching)
+                {
+                    if (boid.perchTimer > 0)
+                    {
+                        boid.perchTimer = boid.perchTimer - 1;
+                    }
+                    else
+                    {
+                        boid.isPerching = false;
+                        boid.perchTimer = 100;
+                    }
+                }
 
-                v1 = Rule1(boid);
-                v2 = Rule2(boid);
-                v3 = Rule3(boid);
-                v4 = BoundPosition(boid);
+                if (boid.perchTimer == 100)
+                {
+                    v1 = Rule1(boid);
+                    v2 = Rule2(boid);
+                    v3 = Rule3(boid);
+                    v4 = BoundPosition(boid);
 
+                    boid.Velocity = boid.Velocity + v1 + v2 + v3 + v4;
+                    LimitVelocity(boid);
+                    float x = boid.Position.x;
+                    boid.Position = boid.Position + boid.Velocity;
 
-                boid.Velocity = boid.Velocity + v1 + v2 + v3 + v4;
-                LimitVelocity(boid);
-                boid.Position = boid.Position + boid.Velocity;
+                    gameObjects[iter].transform.position = boid.Position;
+                }
 
-                gameObjects[iter].transform.position = boid.Position;
                 iter += 1;
             }
         }
@@ -123,7 +142,7 @@ namespace Assets.Scripts.Physics
 
         public Vector3 BoundPosition(BoidParticle b)
         {
-            int xMin = -30, xMax = 30, yMin = -30, yMax = 30, zMin = -30, zMax = 30;
+            int xMin = -30, xMax = 30, yMin = 1, yMax = 30, zMin = -30, zMax = 30;
             int GroundLevel = 0;
 
             Vector3 v = new Vector3();
@@ -139,7 +158,7 @@ namespace Assets.Scripts.Physics
 
             if (b.Position.y < yMin)
             {
-                v.y = 30;
+                v.y = 1;
             }
             else if (b.Position.y > yMax)
             {
@@ -155,11 +174,11 @@ namespace Assets.Scripts.Physics
                 v.z = -30;
             }
 
-            //if (b.Position.y < GroundLevel)
-            //{
-            //    b.Position.y = GroundLevel;
-            //    b.isPerching = true;
-            //}
+            if (b.Position.y <= GroundLevel)
+            {
+                b.Position.y = GroundLevel;
+                b.isPerching = true;
+            }
 
             return v;
         }
@@ -171,6 +190,47 @@ namespace Assets.Scripts.Physics
             if (b.Velocity.magnitude > vlim)
             {
                 b.Velocity = (b.Velocity / (b.Velocity.magnitude) * vlim);
+            }
+        }
+
+        public void AddMoreBoids()
+        {
+            List<GameObject> newGameObjects = new List<GameObject>();
+            List<BoidParticle> newBoidParticles = new List<BoidParticle>();
+            for (int i = 0; i <= 10; i++)
+            {
+                var tempPos = new Vector3();
+                tempPos.x = Random.Range(-500, 500);
+                tempPos.y = Random.Range(1, 500);
+                tempPos.z = Random.Range(-500, 500);
+                var temp = Instantiate(prefab, tempPos, Quaternion.identity);
+
+                newGameObjects.Add(temp);
+                newBoidParticles.Add(new BoidParticle());
+
+                int iter = 0;
+                foreach (var OBJECT in newGameObjects)
+                {
+                    boids[iter].Position = OBJECT.transform.position;
+                    iter += 1;
+                }
+
+                foreach (var particle in newBoidParticles)
+                {
+                    particle.isPerching = false;
+                    particle.perchTimer = 100;
+                }
+
+                foreach (var OBJECT in newGameObjects)
+                {
+                    gameObjects.Add(OBJECT);
+                }
+
+                foreach (var particle in newBoidParticles)
+                {
+                    boids.Add(particle);
+                }
+
             }
         }
     }
