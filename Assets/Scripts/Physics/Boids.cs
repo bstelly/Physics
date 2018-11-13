@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Physics
 {
@@ -9,10 +10,20 @@ namespace Assets.Scripts.Physics
         public List<BoidParticle> boids = new List<BoidParticle>();
         public List<GameObject> gameObjects;
         public GameObject prefab;
+        public Slider CohesionSlider;
+        public Slider DispersionSlider;
+        public Slider AlignmentSlider;
+        public float cohesion = 100;
+        public float dispersion = 1;
+        public float alignment = 8;
 
         void Start()
         {
-            for (int i = 0; i < 1000; i++)
+            CohesionSlider.value = cohesion;
+            AlignmentSlider.value = alignment;
+            DispersionSlider.value = dispersion;
+
+            for (int i = 0; i < 300; i++)
             {
                 //var temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 var tempPos = new Vector3();
@@ -32,12 +43,18 @@ namespace Assets.Scripts.Physics
                 iter += 1;
             }
 
+            
+
 
             Initialize();
         }
 
         void Update()
         {
+            cohesion = CohesionSlider.value;
+            dispersion = DispersionSlider.value;
+            alignment = AlignmentSlider.value;
+
             MoveAllBoidsToNewPositions();
         }
 
@@ -102,7 +119,7 @@ namespace Assets.Scripts.Physics
             }
 
             centerOfMass = centerOfMass / (boids.Count - 1);
-            return (centerOfMass - b.Position) / 100;
+            return (centerOfMass - b.Position) / cohesion;
         }
 
         public Vector3 Rule2(BoidParticle b)
@@ -113,7 +130,7 @@ namespace Assets.Scripts.Physics
             {
                 if (boid != b)
                 {
-                    if ((boid.Position - b.Position).magnitude <= 1)
+                    if ((boid.Position - b.Position).magnitude <= dispersion)
                     {
                         c = c - (boid.Position - b.Position);
                     }
@@ -137,7 +154,7 @@ namespace Assets.Scripts.Physics
 
             perceivedVelocity = perceivedVelocity / (boids.Count - 1);
 
-            return (perceivedVelocity - b.Velocity) / 8;
+            return (perceivedVelocity - b.Velocity) / alignment;
         }
 
         public Vector3 BoundPosition(BoidParticle b)
