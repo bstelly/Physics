@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Physics;
 using UnityEngine;
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.Particle
 {
     public class InputMove : IMoveable
     {

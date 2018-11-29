@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.AABB
 {
 
     public class CollisionDetection : MonoBehaviour

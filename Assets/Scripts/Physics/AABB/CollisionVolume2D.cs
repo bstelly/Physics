@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.AABB
 {
     public class CollisionVolume2D : MonoBehaviour
     {

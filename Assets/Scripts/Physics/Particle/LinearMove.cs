@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.Particle
 {
     public class LinearMove : IMoveable
     {

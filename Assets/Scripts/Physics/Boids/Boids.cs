@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.Boids
 {
     public class Boids : MonoBehaviour
     {

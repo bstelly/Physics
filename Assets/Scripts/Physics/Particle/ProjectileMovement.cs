@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 
 
-namespace Assets.Scripts.Physics
+namespace Assets.Scripts.Physics.Particle
 {
     
 
