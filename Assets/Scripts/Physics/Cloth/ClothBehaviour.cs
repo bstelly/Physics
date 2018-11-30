@@ -6,14 +6,16 @@ namespace Assets.Scripts.Physics.Cloth
 {
     public class ClothBehaviour : MonoBehaviour
     {
-        public List<SpringDamper> springDampers;
         public List<Particle> particles;
+        public List<SpringDamper> springDampers;
 
-        // Use this for initialization
+        int width = 5;
+        int height = 5;
+
         void Start()
         {
-            float width = 5;
-            float height = 5;
+            particles = new List<Particle>();
+            springDampers = new List<SpringDamper>();
 
             for (int x = 0; x < width; x++)
             {
@@ -25,12 +27,26 @@ namespace Assets.Scripts.Physics.Cloth
 
             for (int i = 0; i < particles.Count; i++)
             {
+                if (particles[i].r.y == height - 1)
+                {
+                    particles[i].isAnchored = true;
+                }
+            }
 
-                springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
+            for (int i = 0; i < particles.Count; i++)
+            {
+                if (i != width)
+                {
+                    springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
+                }
+
+                if (i != height)
+                {
+                    springDampers.Add(new SpringDamper(particles[i], particles[i + width]));
+                }
             }
         }
 
-        // Update is called once per frame
         void Update()
         {
             foreach(var spring in springDampers)
@@ -41,7 +57,24 @@ namespace Assets.Scripts.Physics.Cloth
             //Add gravity force to each particle
             foreach(var particle in particles)
             {
-                particle.AddForce(new Vector3(0, -9.81, 0));
+                if (!particle.isAnchored)
+                {
+                    particle.AddForce(new Vector3(0, -9.81f, 0));
+                    particle.Update();
+                }
+            }
+        }
+
+        void OnDrawGizmos()
+        {
+            for (int i = 0; i < particles.Count; i++)
+            {
+                Gizmos.DrawSphere(particles[i].r, .5f);
+            }
+
+            for (int i = 0; i < springDampers.Count; i++)
+            {
+                Gizmos.DrawLine(springDampers[i].P1.r, springDampers[i].P2.r);
             }
         }
     }

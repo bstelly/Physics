@@ -14,7 +14,7 @@ namespace Assets.Scripts.Physics.Cloth
         public Particle P1; //Particle One
         public Particle P2; //Particle Two
 
-        SpringDamper(Particle particleOne, Particle particleTwo)
+        public SpringDamper(Particle particleOne, Particle particleTwo)
         {
             P1 = particleOne;
             P2 = particleTwo;
@@ -38,6 +38,8 @@ namespace Assets.Scripts.Physics.Cloth
             var Fsd = (-Ks * (Lo - mag)) - (Kd * (V1 - V2));
             var F1 = Fsd * unitLength;
             var F2 = -F1;
+            P1.AddForce(F1);
+            P2.AddForce(F2);
         }
     }
 }

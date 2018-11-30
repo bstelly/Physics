@@ -12,24 +12,25 @@ namespace Assets.Scripts.Physics.Cloth
         public Vector3 v; //Velocity
         public Vector3 a; //acceleration
         public Vector3 f; //force
-        public float m; //mass
+        public float m = 1; //mass
+        public bool isAnchored;
 
-        Particle();
-        Particle(Vector3 position)
+        public Particle(Vector3 position)
         {
             r = position;
-        }
-
-        void Start()
-        {
             a = f * m;
         }
 
-        void Update()
+        public void Update()
         {
             a = f * m;
             v = v + (a * Time.deltaTime);
             r = r + (v * Time.deltaTime);
+        }
+
+        public void AddForce(Vector3 force)
+        {
+            f += force;
         }
     }
 }
