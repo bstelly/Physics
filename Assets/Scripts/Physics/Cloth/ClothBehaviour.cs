@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace Assets.Scripts.Physics.Cloth
@@ -9,8 +10,8 @@ namespace Assets.Scripts.Physics.Cloth
         public List<Particle> particles;
         public List<SpringDamper> springDampers;
 
-        int width = 5;
-        int height = 5;
+        public int width;
+        public int height;
 
         void Start()
         {
@@ -33,9 +34,18 @@ namespace Assets.Scripts.Physics.Cloth
                 }
             }
 
+            //for (int i = 0; i < particles.Count; i++)
+            //{
+            //    if (particles[i].r.x < width)
+            //    {
+            //        springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
+            //    }
+            //}
+
+
             for (int i = 0; i < particles.Count; i++)
             {
-                if (i != width)
+                if (i < width)
                 {
                     springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
                 }

@@ -142,6 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles: []
   springDampers: []
+  width: 5
+  height: 5
 --- !u!4 &909790568
 Transform:
   m_ObjectHideFlags: 0
