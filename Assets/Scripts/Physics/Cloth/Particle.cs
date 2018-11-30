@@ -13,7 +13,12 @@ namespace Assets.Scripts.Physics.Cloth
         public Vector3 a; //acceleration
         public Vector3 f; //force
         public float m; //mass
-        
+
+        Particle();
+        Particle(Vector3 position)
+        {
+            r = position;
+        }
 
         void Start()
         {

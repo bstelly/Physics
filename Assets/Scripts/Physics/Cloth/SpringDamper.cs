@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Physics.Cloth
 {
-    [CreateAssetMenu]
     [Serializable]
     public class SpringDamper
     {
@@ -19,9 +18,9 @@ namespace Assets.Scripts.Physics.Cloth
         {
             P1 = particleOne;
             P2 = particleTwo;
-            Ks = 50;
-            Kd = 30;
-            Lo = 100;
+            Ks = 75;
+            Kd = 5;
+            Lo = Vector3.Distance(P1.r, P2.r);
         }
 
         public void Update()
