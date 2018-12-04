@@ -26,6 +26,7 @@ namespace Assets.Scripts.Physics.Cloth
             a = f * m;
             v = v + (a * Time.deltaTime);
             r = r + (v * Time.deltaTime);
+            f = Vector3.zero;
         }
 
         public void AddForce(Vector3 force)

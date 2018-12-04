@@ -18,8 +18,8 @@ namespace Assets.Scripts.Physics.Cloth
         {
             P1 = particleOne;
             P2 = particleTwo;
-            Ks = 75;
-            Kd = 5;
+            Ks = 250;
+            Kd = 2;
             Lo = Vector3.Distance(P1.r, P2.r);
         }
 
