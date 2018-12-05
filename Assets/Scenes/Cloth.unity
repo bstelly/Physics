@@ -213,8 +213,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles: []
   springDampers: []
-  width: 20
-  height: 20
+  width: 3
+  height: 3
 --- !u!1 &1885834348
 GameObject:
   m_ObjectHideFlags: 0

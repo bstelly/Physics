@@ -9,7 +9,6 @@ namespace Assets.Scripts.Physics.Cloth
     public class AerodynamicForce
     {
         public Vector3 p; //Density of the air (or water)
-        public float Cd; //Coefficient of drag
         public float a; //Cross sectional area of the object
         public Vector3 e; //Unit vector in the opposite direction of the velocity
         public Particle R1; //Particle One

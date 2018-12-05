@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Jobs;
 using UnityEngine;
 
 namespace Assets.Scripts.Physics.Cloth
@@ -18,6 +17,7 @@ namespace Assets.Scripts.Physics.Cloth
         {
             particles = new List<Particle>();
             springDampers = new List<SpringDamper>();
+
 
             for (int y = 0; y < height; y++)
             {
@@ -58,10 +58,9 @@ namespace Assets.Scripts.Physics.Cloth
                 {
                     springDampers.Add(new SpringDamper(particles[i], particles[i + width - 1]));
                 }
-            }
 
-            //Create the triangles
-           
+
+            }
         }
 
         void Update()
