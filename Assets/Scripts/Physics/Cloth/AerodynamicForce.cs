@@ -46,5 +46,10 @@ namespace Assets.Scripts.Physics.Cloth
             R2.AddForce(AppliedForce);
             R3.AddForce(AppliedForce);
         }
+
+        public bool CheckParticles(Particle par)
+        {
+            return par.Name == ParticleOne.Name || par.Name == ParticleTwo.Name;
+        }
     }
 }

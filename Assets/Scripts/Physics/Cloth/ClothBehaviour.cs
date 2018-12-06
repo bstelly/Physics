@@ -113,7 +113,7 @@ namespace Assets.Scripts.Physics.Cloth
 
                     for (var i = 0; i < triangles.Count; i++)
                     {
-                        if ()
+                        if (//try checking if grabbed is same as triangle particles)
                         {
                             triangles.RemoveAt(i);
                         }
