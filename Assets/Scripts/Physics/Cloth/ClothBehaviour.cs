@@ -78,6 +78,60 @@ namespace Assets.Scripts.Physics.Cloth
 
         void Update()
         {
+            var mousePos = Input.mousePosition;
+            worldMouse = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x,
+                mousePos.y, -Camera.main.transform.position.z));
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                foreach (var p in particles)
+                {
+                    var scaledPPositoin = new Vector3(p.r.x * transform.localScale.x,
+                        p.r.y * transform.localScale.y,
+                        p.r.z * transform.localScale.z);
+                    var checkPos = new Vector3(worldMouse.x, worldMouse.y, p.r.z);
+                    if (Vector3.Distance(checkPos, scaledPPositoin) <= 1f)
+                    {
+                        grabbedParticle = p;
+                    }
+                }
+            }
+
+            if (Input.GetMouseButton(0) && grabbedParticle != null)
+            {
+                grabbedParticle.r = worldMouse;
+                if (grabbedParticle.f.magnitude >= 1 || Input.GetKeyDown(KeyCode.R))
+                {
+                    grabbedParticle.IsActive = false;
+                    for (var i = 0; i < springDampers.Count; i++)
+                    {
+                        if (springDampers[i].CheckParticles(grabbedParticle))
+                        {
+                            springDampers.RemoveAt(i);
+                        }
+                    }
+
+                    for (var i = 0; i < triangles.Count; i++)
+                    {
+                        if ()
+                        {
+                            triangles.RemoveAt(i);
+                        }
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.A))
+                    grabbedParticle.IsAnchored = !grabbedParticle.IsAnchored;
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                grabbedParticle = null;
+            }
+
+
+
+
             foreach (var spring in springDampers)
             {
                 spring.Update();
