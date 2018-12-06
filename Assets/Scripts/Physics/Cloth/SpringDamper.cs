@@ -18,7 +18,7 @@ namespace Assets.Scripts.Physics.Cloth
         {
             P1 = particleOne;
             P2 = particleTwo;
-            Ks = 500;
+            Ks = 10;
             Kd = 2;
             Lo = Vector3.Distance(P1.r, P2.r);
         }
@@ -40,11 +40,6 @@ namespace Assets.Scripts.Physics.Cloth
             var F2 = -F1;
             P1.AddForce(F1);
             P2.AddForce(F2);
-        }
-
-        public bool CheckParticles(Particle par)
-        {
-            return par.Name == ParticleOne.Name || par.Name == ParticleTwo.Name;
         }
     }
 }

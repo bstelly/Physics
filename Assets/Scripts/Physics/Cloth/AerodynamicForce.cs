@@ -39,17 +39,12 @@ namespace Assets.Scripts.Physics.Cloth
 
             //Calculate the total force being applied to the triangle
             var nPrime = Vector3.Cross(R2.r - R1.r, R3.r - R1.r);
-            var totalForce = ((v.magnitude * Vector3.Dot(v, nPrime)) / ((2 * nPrime.magnitude))) * nPrime;
+            var totalForce = ((v.magnitude * Vector3.Dot(v, nPrime)) / ((2 * nPrime.magnitude)) * nPrime);
 
             var AppliedForce = totalForce / 3;
             R1.AddForce(AppliedForce);
             R2.AddForce(AppliedForce);
             R3.AddForce(AppliedForce);
-        }
-
-        public bool CheckParticles(Particle par)
-        {
-            return par.Name == ParticleOne.Name || par.Name == ParticleTwo.Name;
         }
     }
 }

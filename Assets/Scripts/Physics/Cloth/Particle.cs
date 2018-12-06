@@ -14,7 +14,7 @@ namespace Assets.Scripts.Physics.Cloth
         public Vector3 f; //force
         public float m = 1; //mass
         public bool IsAnchored;
-        public bool IsActive;
+        public bool IsActive = true;
 
         public Particle(Vector3 position)
         {

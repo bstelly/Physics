@@ -27,25 +27,25 @@ namespace Assets.Scripts.Physics.AABB
             }
         }
 
-    //    void Update()
-    //    {
-    //        for (int i = 0; i < colliders.Count; i++)
-    //        {
-    //            for (int j = 0; j < colliders.Count; j++)
-    //            {
-    //                if (colliders[i] != colliders[j])
-    //                {
-    //                    if (colliders[i].min.x < colliders[j].max.x &&
-    //                        colliders[i].max.x > colliders[j].min.x &&
-    //                        colliders[i].min.y < colliders[j].max.y &&
-    //                        colliders[i].max.y > colliders[j].min.y)
-    //                    {
-    //                        Debug.Log("collision detected");
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
+        void Update()
+        {
+            for (int i = 0; i < colliders.Count; i++)
+            {
+                for (int j = 0; j < colliders.Count; j++)
+                {
+                    if (colliders[i] != colliders[j])
+                    {
+                        if (colliders[i].min.x < colliders[j].max.x &&
+                            colliders[i].max.x > colliders[j].min.x &&
+                            colliders[i].min.y < colliders[j].max.y &&
+                            colliders[i].max.y > colliders[j].min.y)
+                        {
+                            Debug.Log("collision detected");
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }

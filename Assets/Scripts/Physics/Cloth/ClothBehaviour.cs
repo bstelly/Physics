@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Physics.Cloth
 {
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Physics.Cloth
             particles = new List<Particle>();
             springDampers = new List<SpringDamper>();
             triangles = new List<AerodynamicForce>();
+  
 
 
             for (int y = 0; y < height; y++)
@@ -72,27 +74,32 @@ namespace Assets.Scripts.Physics.Cloth
                     springDampers.Add(new SpringDamper(particles[i], particles[i + width - 1]));
                 }
 
-
             }
+            
         }
 
         void Update()
         {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+
             var mousePos = Input.mousePosition;
             worldMouse = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x,
                 mousePos.y, -Camera.main.transform.position.z));
 
             if (Input.GetMouseButtonDown(0))
             {
-                foreach (var p in particles)
+                foreach (var particle in particles)
                 {
-                    var scaledPPositoin = new Vector3(p.r.x * transform.localScale.x,
-                        p.r.y * transform.localScale.y,
-                        p.r.z * transform.localScale.z);
-                    var checkPos = new Vector3(worldMouse.x, worldMouse.y, p.r.z);
+                    var scaledPPositoin = new Vector3(particle.r.x * transform.localScale.x,
+                        particle.r.y * transform.localScale.y,
+                        particle.r.z * transform.localScale.z);
+                    var checkPos = new Vector3(worldMouse.x, worldMouse.y, particle.r.z);
                     if (Vector3.Distance(checkPos, scaledPPositoin) <= 1f)
                     {
-                        grabbedParticle = p;
+                        grabbedParticle = particle;
                     }
                 }
             }
@@ -100,12 +107,13 @@ namespace Assets.Scripts.Physics.Cloth
             if (Input.GetMouseButton(0) && grabbedParticle != null)
             {
                 grabbedParticle.r = worldMouse;
-                if (grabbedParticle.f.magnitude >= 1 || Input.GetKeyDown(KeyCode.R))
+                if (/*grabbedParticle.f.magnitude >= 1 ||*/ Input.GetKeyDown(KeyCode.R))
                 {
                     grabbedParticle.IsActive = false;
                     for (var i = 0; i < springDampers.Count; i++)
                     {
-                        if (springDampers[i].CheckParticles(grabbedParticle))
+                        if (grabbedParticle == springDampers[i].P1 || 
+                            grabbedParticle == springDampers[i].P2)
                         {
                             springDampers.RemoveAt(i);
                         }
@@ -113,15 +121,20 @@ namespace Assets.Scripts.Physics.Cloth
 
                     for (var i = 0; i < triangles.Count; i++)
                     {
-                        if (//try checking if grabbed is same as triangle particles)
+                        if (grabbedParticle == triangles[i].R1 || 
+                            grabbedParticle == triangles[i].R2 || 
+                            grabbedParticle == triangles[i].R3)
                         {
                             triangles.RemoveAt(i);
                         }
                     }
+
                 }
 
                 if (Input.GetKeyDown(KeyCode.A))
+                {
                     grabbedParticle.IsAnchored = !grabbedParticle.IsAnchored;
+                }
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -130,37 +143,37 @@ namespace Assets.Scripts.Physics.Cloth
             }
 
 
-
-
             foreach (var spring in springDampers)
             {
                 spring.Update();
             }
             
-            //Add gravity force to each particle
+            //Add gravity force to each particle and update particles
             foreach(var particle in particles)
             {
-                if (!particle.IsAnchored)
+                if (!particle.IsAnchored && particle != grabbedParticle)
                 {
-                    particle.Update();
                     particle.AddForce(new Vector3(0, -9.81f, 0));
+                    particle.Update();
                 }
             }
 
+            //Add aerodynamic force
             foreach(var triangle in triangles)
             {
                 triangle.p = airDensity;
                 triangle.Update();
             }
+
         }
 
         void OnDrawGizmos()
         {
-            for (int i = 0; i < particles.Count; i++)
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(particles[i].r, .5f);
-            }
+            //for (int i = 0; i < particles.Count; i++)
+            //{
+            //    Gizmos.color = Color.blue;
+            //    Gizmos.DrawSphere(particles[i].r, .5f);
+            //}
 
             for (int i = 0; i < springDampers.Count; i++)
             {
