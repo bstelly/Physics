@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using System;
 
 namespace Assets.Scripts.Physics.Cloth
 {
-
+    [Serializable]
     public class AerodynamicForce
     {
         public Vector3 p; //Density of the air (or water)
