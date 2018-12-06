@@ -17,6 +17,7 @@ namespace Assets.Scripts.Physics.Cloth
         {
             particles = new List<Particle>();
             springDampers = new List<SpringDamper>();
+            triangles = new List<AerodynamicForce>();
 
 
             for (int y = 0; y < height; y++)
@@ -39,26 +40,29 @@ namespace Assets.Scripts.Physics.Cloth
             //Connecting the spring dampers
             for (int i = 0; i < particles.Count; i++)
             {
-                if (particles[i].r.x < width - 1)
-                {
-                    springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
-                }
+                //if (particles[i].r.x < width - 1)
+                //{
+                //    springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
+                //}
 
-                if (particles[i].r.y < height - 1)
-                {
-                    springDampers.Add(new SpringDamper(particles[i], particles[i + width]));
-                }
+                //if (particles[i].r.y < height - 1)
+                //{
+                //    springDampers.Add(new SpringDamper(particles[i], particles[i + width]));
+                //}
 
+                //Cross dampers
                 if (particles[i].r.x < width - 1 && particles[i].r.y < height - 1)
                 {
-                    springDampers.Add(new SpringDamper(particles[i], particles[i + width + 1]));
+                    //springDampers.Add(new SpringDamper(particles[i], particles[i + width + 1]));
+                    triangles.Add(new AerodynamicForce(particles[i], particles[i + 1], particles[i + width]));
+                    triangles.Add(new AerodynamicForce(particles[i + 1], particles[i + width], particles[i + width + 1]));
                 }
 
-                if (particles[i].r.x > 0 && particles[i].r.y != height - 1)
-                {
-                    springDampers.Add(new SpringDamper(particles[i], particles[i + width - 1]));
-                }
-
+                //if (particles[i].r.x > 0 && particles[i].r.y != height - 1)
+                //{
+                //    springDampers.Add(new SpringDamper(particles[i], particles[i + width - 1]));
+                //}
+                
 
             }
         }
@@ -89,10 +93,19 @@ namespace Assets.Scripts.Physics.Cloth
                 Gizmos.DrawSphere(particles[i].r, .5f);
             }
 
-            for (int i = 0; i < springDampers.Count; i++)
+            //for (int i = 0; i < springDampers.Count; i++)
+            //{
+            //    Gizmos.color = Color.green;
+            //    Gizmos.DrawLine(springDampers[i].P1.r, springDampers[i].P2.r);
+            //}
+
+
+            //Checking if triangles were created properly
+            for (int i = 0; i < triangles.Count; i++)
             {
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(springDampers[i].P1.r, springDampers[i].P2.r);
+                Gizmos.DrawLine(triangles[i].R1.r, triangles[i].R2.r);
+                Gizmos.DrawLine(triangles[i].R2.r, triangles[i].R3.r);
+                Gizmos.DrawLine(triangles[i].R3.r, triangles[i].R1.r);
             }
         }
     }
