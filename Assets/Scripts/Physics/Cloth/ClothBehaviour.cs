@@ -44,7 +44,7 @@ namespace Assets.Scripts.Physics.Cloth
             //Anchoring particles
             for (int i = 0; i < particles.Count; i++)
             {
-                if (particles[i].r.x == 0)
+                if (particles[i].r.y == height - 1)
                 {
                     particles[i].IsAnchored = true;
                 }
@@ -114,7 +114,7 @@ namespace Assets.Scripts.Physics.Cloth
             if (Input.GetMouseButton(0) && grabbedParticle != null)
             {
                 grabbedParticle.r = worldMouse;
-                if (grabbedParticle.v.magnitude >= 100 || Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.R))
                 {
                     grabbedParticle.IsActive = false;
                     for (var i = 0; i < springDampers.Count; i++)
