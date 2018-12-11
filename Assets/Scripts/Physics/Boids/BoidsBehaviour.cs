@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Physics.Boids
 {
-    public class Boids : MonoBehaviour
+    public class BoidsBehaviour : MonoBehaviour
     {
-        public List<BoidParticle> boids = new List<BoidParticle>();
+        public List<BoidParticle> boids;
         public List<GameObject> gameObjects;
         public GameObject prefab;
+        public int boidAmount;
         public Slider CohesionSlider;
         public Slider DispersionSlider;
         public Slider AlignmentSlider;
@@ -19,11 +20,12 @@ namespace Assets.Scripts.Physics.Boids
 
         void Start()
         {
+            boids = new List<BoidParticle>();
             CohesionSlider.value = cohesion;
             AlignmentSlider.value = alignment;
             DispersionSlider.value = dispersion;
 
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < boidAmount; i++)
             {
                 //var temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 var tempPos = new Vector3();
@@ -43,10 +45,11 @@ namespace Assets.Scripts.Physics.Boids
                 iter += 1;
             }
 
-            
-
-
-            Initialize();
+            foreach (var boid in boids)
+            {
+                boid.isPerching = false;
+                boid.perchTimer = 100;
+            }
         }
 
         void Update()
@@ -58,16 +61,7 @@ namespace Assets.Scripts.Physics.Boids
             MoveAllBoidsToNewPositions();
         }
 
-        public void Initialize()
-        {
-            foreach (var boid in boids)
-            {
-                boid.isPerching = false;
-                boid.perchTimer = 100;
-            }
-        }
-
-        public void MoveAllBoidsToNewPositions()
+        void MoveAllBoidsToNewPositions()
         {
             Vector3 v1, v2, v3, v4;
 
@@ -96,7 +90,6 @@ namespace Assets.Scripts.Physics.Boids
 
                     boid.Velocity = boid.Velocity + v1 + v2 + v3 + v4;
                     LimitVelocity(boid);
-                    float x = boid.Position.x;
                     boid.Position = boid.Position + boid.Velocity;
 
                     gameObjects[iter].transform.position = boid.Position;
@@ -106,7 +99,7 @@ namespace Assets.Scripts.Physics.Boids
             }
         }
 
-        public Vector3 Rule1(BoidParticle b)
+        Vector3 Rule1(BoidParticle b)
         {
             Vector3 centerOfMass = new Vector3();
 
@@ -122,7 +115,7 @@ namespace Assets.Scripts.Physics.Boids
             return (centerOfMass - b.Position) / cohesion;
         }
 
-        public Vector3 Rule2(BoidParticle b)
+        Vector3 Rule2(BoidParticle b)
         {
             Vector3 c = new Vector3();
 
@@ -140,7 +133,7 @@ namespace Assets.Scripts.Physics.Boids
             return c;
         }
 
-        public Vector3 Rule3(BoidParticle b)
+        Vector3 Rule3(BoidParticle b)
         {
             Vector3 perceivedVelocity = new Vector3();
 
@@ -157,7 +150,7 @@ namespace Assets.Scripts.Physics.Boids
             return (perceivedVelocity - b.Velocity) / alignment;
         }
 
-        public Vector3 BoundPosition(BoidParticle b)
+        Vector3 BoundPosition(BoidParticle b)
         {
             int xMin = -30, xMax = 30, yMin = 1, yMax = 30, zMin = -30, zMax = 30;
             int GroundLevel = 0;
@@ -200,7 +193,7 @@ namespace Assets.Scripts.Physics.Boids
             return v;
         }
 
-        public void LimitVelocity(BoidParticle b)
+        void LimitVelocity(BoidParticle b)
         {
             int vlim = 2;
             Vector3 v;
@@ -210,7 +203,7 @@ namespace Assets.Scripts.Physics.Boids
             }
         }
 
-        public void AddMoreBoids()
+        void AddMoreBoids()
         {
             List<GameObject> newGameObjects = new List<GameObject>();
             List<BoidParticle> newBoidParticles = new List<BoidParticle>();

@@ -44,10 +44,7 @@ namespace Assets.Scripts.Physics.Cloth
             Vertices.Clear();
             foreach (var p in clothRef.particles)
             {
-                //if (p.IsActive)
-                //{
                     Vertices.Add(p.r);
-                //}
             }
             InstanceMesh.vertices = Vertices.ToArray();
         }
@@ -91,7 +88,7 @@ namespace Assets.Scripts.Physics.Cloth
             UVs.Clear();
             foreach (var vert in Vertices)
             {
-                UVs.Add(new Vector2(vert.x / (5 - 1), vert.y / (5 - 1)));
+                UVs.Add(new Vector2(vert.x / (clothRef.width - 1), vert.y / (clothRef.width - 1)));
             }
             InstanceMesh.uv = UVs.ToArray();
         }

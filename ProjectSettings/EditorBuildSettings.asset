@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Cloth.unity
     guid: 368a0e56771853847bb1e38088f921df
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Boids.unity
     guid: b707b706c0d044f439420904d777ed63
   m_configObjects: {}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Physics.Cloth
 {
@@ -10,13 +11,19 @@ namespace Assets.Scripts.Physics.Cloth
         public List<Particle> particles;
         public List<SpringDamper> springDampers;
         public List<AerodynamicForce> triangles;
-        public Vector3 airDensity;
+        private Vector3 airDensity;
 
         public int width;
         public int height;
 
         private Particle grabbedParticle;
         private Vector3 worldMouse;
+
+        public Slider SliderSpringConstant;
+        public Slider SliderDampingFactor;
+        public Slider SliderWindX;
+        public Slider SliderWindY;
+        public Slider SliderWindZ;
 
         void Start()
         {
@@ -37,7 +44,7 @@ namespace Assets.Scripts.Physics.Cloth
             //Anchoring particles
             for (int i = 0; i < particles.Count; i++)
             {
-                if (particles[i].r.y == height - 1)
+                if (particles[i].r.x == 0)
                 {
                     particles[i].IsAnchored = true;
                 }
@@ -107,7 +114,7 @@ namespace Assets.Scripts.Physics.Cloth
             if (Input.GetMouseButton(0) && grabbedParticle != null)
             {
                 grabbedParticle.r = worldMouse;
-                if (/*grabbedParticle.f.magnitude >= 1 ||*/ Input.GetKeyDown(KeyCode.R))
+                if (grabbedParticle.v.magnitude >= 100 || Input.GetKeyDown(KeyCode.R))
                 {
                     grabbedParticle.IsActive = false;
                     for (var i = 0; i < springDampers.Count; i++)
@@ -145,6 +152,8 @@ namespace Assets.Scripts.Physics.Cloth
 
             foreach (var spring in springDampers)
             {
+                spring.Ks = SliderSpringConstant.value;
+                spring.Kd = SliderDampingFactor.value;
                 spring.Update();
             }
             
@@ -161,6 +170,7 @@ namespace Assets.Scripts.Physics.Cloth
             //Add aerodynamic force
             foreach(var triangle in triangles)
             {
+                airDensity = new Vector3(SliderWindX.value, SliderWindY.value, SliderWindZ.value);
                 triangle.p = airDensity;
                 triangle.Update();
             }

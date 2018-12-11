@@ -8,16 +8,13 @@ namespace Assets.Scripts.Physics.AABB
 
     public class CollisionDetection : MonoBehaviour
     {
-
-        [NonSerialized] public List<float> xValues;
-
-        [NonSerialized] public List<float> yValues;
-
         public List<CollisionVolume2D> colliders;
-        public List<CollisionVolume2D> OpenList;
-        public List<CollisionVolume2D> ClosedList;
 
         public Transform collisionVolumes;
+
+        public Material collisionMaterial;
+
+        private Renderer renderer = new Renderer();
 
         void Start()
         {
@@ -25,6 +22,7 @@ namespace Assets.Scripts.Physics.AABB
             {
                 colliders.Add(child.GetComponent<CollisionVolume2D>());
             }
+            renderer.material = collisionMaterial;
         }
 
         void Update()
@@ -40,7 +38,13 @@ namespace Assets.Scripts.Physics.AABB
                             colliders[i].min.y < colliders[j].max.y &&
                             colliders[i].max.y > colliders[j].min.y)
                         {
+                            collisionVolumes.GetChild(i).GetComponent<Renderer>().material.color = Color.red;
+                            collisionVolumes.GetChild(j).GetComponent<Renderer>().material.color = Color.red;
                             Debug.Log("collision detected");
+                        }
+                        else
+                        {
+                            collisionVolumes.GetChild(i).GetComponent<Renderer>().material.color = Color.white;
                         }
                     }
                 }

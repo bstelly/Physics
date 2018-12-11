@@ -11,7 +11,6 @@ namespace Assets.Scripts.Physics.Cloth
     {
         public Vector3 p; //Density of the air (or water)
         public float a; //Cross sectional area of the object
-        public Vector3 e; //Unit vector in the opposite direction of the velocity
         public Particle R1; //Particle One
         public Particle R2; //Particle Two
         public Particle R3; //Particle Three
@@ -39,7 +38,7 @@ namespace Assets.Scripts.Physics.Cloth
 
             //Calculate the total force being applied to the triangle
             var nPrime = Vector3.Cross(R2.r - R1.r, R3.r - R1.r);
-            var totalForce = ((v.magnitude * Vector3.Dot(v, nPrime)) / ((2 * nPrime.magnitude)) * nPrime);
+            var totalForce = -.5f * ((v.magnitude * Vector3.Dot(v, nPrime)) / ((2 * nPrime.magnitude)) * nPrime);
 
             var AppliedForce = totalForce / 3;
             R1.AddForce(AppliedForce);
