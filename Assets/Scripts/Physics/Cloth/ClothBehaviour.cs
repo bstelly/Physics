@@ -59,6 +59,7 @@ namespace Assets.Scripts.Physics.Cloth
                     springDampers.Add(new SpringDamper(particles[i], particles[i + 1]));
                 }
 
+                //vertical
                 if (particles[i].r.y < height - 1)
                 {
                     springDampers.Add(new SpringDamper(particles[i], particles[i + width]));
